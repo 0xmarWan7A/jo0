@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Data to Excel</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f4f4f9;
+      }
+      .container {
+        max-width: 500px;
+        margin: auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      label {
+        display: block;
+        margin: 10px 0 5px;
+        font-weight: bold;
+      }
+      input,
+      button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Project Data to Excel</h1>
+      <form id="dataForm">
+        <label for="date">Date:</label>
+        <input type="date" id="date" required />
+
+        <label for="project">Project Details:</label>
+        <input
+          type="text"
+          id="project"
+          placeholder="Enter project details"
+          required
+        />
+
+        <button type="button" onclick="generateExcel()">Generate Excel</button>
+      </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+      function generateExcel() {
+        const date = document.getElementById("date").value;
+        const project = document.getElementById("project").value;
+
+        if (!date || !project) {
+          alert("Please fill in all fields.");
+          return;
+        }
+
+        const workbook = XLSX.utils.book_new();
+        const worksheetData = [
+          ["Date", "Project Details"],
+          [date, project],
+        ];
+
+        const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+        XLSX.writeFile(workbook, "ProjectData.xlsx");
+      }
+    </script>
+  </body>
+</html>
